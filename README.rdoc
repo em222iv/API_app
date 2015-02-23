@@ -1,0 +1,9 @@
+<b>Installation:</b>
+-Ladda ner projektet i testbranchen.
+
+-Kör igång, öppna 2 terminaler. I den ena skriv "bundle install", sedan "rails s".
+Den andra terminalen så skriver du "rake db:setup" för skapa en db och köra igång seeds för att få testdata och en admin.
+Admins inlogg är nu inställt till: Erik@gmail.org, lösenord: password
+
+Vill du ha testpersoner i systemet, utan att behöva skapa dem själv, så gå in under db -> seeds och avmarkera 
+den kommenterade koden.
