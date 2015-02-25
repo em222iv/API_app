@@ -2,18 +2,19 @@
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 #
 Event.create(
-    positionID: 1,
-    creatorID: 1,
+    position_id: 1,
+    creator_id: 1,
     description: "hej"
 )
 Tag.create(tag: "taggg")
 
 Position.create(
-    lat: 1.32423,
-    long: 1.43533
+    lat: 40.1,
+    long: 50.2
 )
 Creator.create(
-    creator: "Chimmichanga"
+    creator: "Chimmichanga",
+    password: "password"
 )
 
 User.create!(username:              "Erik",

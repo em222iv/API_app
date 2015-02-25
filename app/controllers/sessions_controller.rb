@@ -19,4 +19,16 @@ class SessionsController < ApplicationController
     log_out
     redirect_to login_url
   end
+
+  ## This is called from a client who wish to authenticate and get a JSON Web Token back
+  def api_auth
+    # output the APIkey from the header
+    # puts request.headers["X-APIkey"];
+    creator = Creator.find_by(creator: request.headers[:creator])
+    if creator && Creator.find_by(password: request.headers[:password])
+      render json: { auth_token: encodeJWT(creator) }
+    else
+      render json: { error: 'Invalid username or password' }, status: :unauthorized
+    end
+  end
 end

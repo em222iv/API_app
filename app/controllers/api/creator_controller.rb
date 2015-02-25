@@ -1,6 +1,8 @@
 class Api::CreatorController < ApplicationController
   protect_from_forgery with: :null_session
   skip_before_filter :verify_authenticity_token
+  before_action :api_auth
+  before_action :api_key
   respond_to :json, :xml
 
   def index
@@ -8,7 +10,7 @@ class Api::CreatorController < ApplicationController
     respond_with @creator
   end
   def show
-    creator = Tag.find(params[:id])
+    creator = Creator.find(params[:id])
     respond_with creator.events
   end
   def new
@@ -28,8 +30,11 @@ class Api::CreatorController < ApplicationController
       respond_with @creator
     end
   end
+  # render status: :too_many_requests # 424
+  #  render status: :unprocessable_entity # 422
+
   private
   def creator_params
-    params.require(:creator).permit(:creator)
+    params.require(:creator).permit(:creator,:password)
   end
 end

@@ -1,4 +1,5 @@
 class Position < ActiveRecord::Base
   reverse_geocoded_by :lat, :long
-  belongs_to :event
+  after_validation :reverse_geocode  # auto-fetch address
+  has_many :events
 end

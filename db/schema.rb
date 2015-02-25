@@ -15,13 +15,14 @@ ActiveRecord::Schema.define(version: 20150223121021) do
 
   create_table "creators", force: :cascade do |t|
     t.string   "creator"
+    t.string   "password"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "events", force: :cascade do |t|
-    t.integer  "positionID"
-    t.integer  "creatorID"
+    t.integer  "position_id"
+    t.integer  "creator_id"
     t.string   "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false

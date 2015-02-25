@@ -8,10 +8,11 @@ Rails.application.routes.draw do
   get    'signup'  => 'users#new'
   get    'login'   => 'sessions#new'
   post   'login'   => 'sessions#create'
+  get 'auth' => 'sessions#api_auth'
   delete 'logout'  => 'sessions#destroy'
   resources :users
   namespace :api do
-    get    'near'   => 'event#nearby'
+    get    '/event/nearby'   => 'event#nearby'
     resources :event,:tag,:creator,:position
   end
 end

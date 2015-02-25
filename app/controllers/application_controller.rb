@@ -14,4 +14,16 @@ class ApplicationController < ActionController::Base
       @limit = params[:limit].to_i
     end
   end
+
+
+  def api_key
+    api_key = request.headers['ClientKey']
+    @decode = decodeJWT(api_key)
+      if @decode
+        @creator_id = @decode[0]['creator_id']
+        @decode
+      else
+        render json: { error: 'The provided token wasn´t correct' }, status: :bad_request
+      end
+  end
 end

@@ -1,6 +1,9 @@
 class Api::PositionController < ApplicationController
   protect_from_forgery with: :null_session
   skip_before_filter :verify_authenticity_token
+  before_action :api_key
+  before_action :api_auth, only: [:index,:show]
+
   respond_to :json, :xml
 
   def index

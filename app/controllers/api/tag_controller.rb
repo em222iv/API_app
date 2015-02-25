@@ -1,6 +1,7 @@
 class Api::TagController < ApplicationController
   protect_from_forgery with: :null_session
   skip_before_filter :verify_authenticity_token
+  before_action :api_auth
   respond_to :json, :xml
 
   def index
@@ -26,6 +27,18 @@ class Api::TagController < ApplicationController
     @tag = Tag.find(params[:id])
     if @tag.update_attributes(tag_params)
       respond_with @tag
+    end
+  end
+  # render status: :too_many_requests # 424
+  #  render status: :unprocessable_entity # 422
+  def api_auth
+    if request.headers["Authorization"].present?
+      key = request.headers["Authorization"]
+      @user = User.where(key: key).first if key
+      unless @user
+        render status: :unauthorized # 401
+        return false
+      end
     end
   end
   private
