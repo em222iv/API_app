@@ -1,9 +1,16 @@
 <b>Installation:</b>
--Ladda ner projektet i testbranchen.
+-Ladda ner/clona projektet
 
--Kör igång, öppna 2 terminaler. I den ena skriv "bundle install", sedan "rails s".
-Den andra terminalen så skriver du "rake db:setup" för skapa en db och köra igång seeds för att få testdata och en admin.
+-Kör igång, öppna 2 terminaler. I den ena skriv “bundle install”, sedan “rails s”. Den andra terminalen så skriver du “rake db:setup” för skapa en db och köra igång seeds för att få testdata och en admin.
 Admins inlogg är nu inställt till: Erik@gmail.org, lösenord: password
 
-Vill du ha testpersoner i systemet, utan att behöva skapa dem själv, så gå in under db -> seeds och avmarkera 
-den kommenterade koden.
+-Se till att skapa en egen användare/eller välj en av de autogenererade(http://localhost:3000/login, eller den port du väljer att köra istället för 3000)
+ för att få en API-nyckel.
+
+-Använd sedan postman för att få en "ClientKey" under http://localhost:3000/auth.
+Det finns en föreberedd flik i postman-filen som heter Get-ClientKey,
+fyll bara in dina uppgifter u headern.
+
+
+
+

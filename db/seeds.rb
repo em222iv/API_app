@@ -18,7 +18,7 @@ Creator.create(
 )
 
 User.create!(username:              "Erik",
-             email:                 "Erik@gmaill.org",
+             email:                 "Erik@gmail.org",
              password:              "password",
              password_confirmation: "password",
              key:                   "admin",
