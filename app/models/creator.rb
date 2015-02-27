@@ -1,6 +1,6 @@
 class Creator < ActiveRecord::Base
   has_many :events
-
+  has_secure_password
   include Rails.application.routes.url_helpers
 
   def serializable_hash (options={})

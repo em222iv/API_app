@@ -25,7 +25,7 @@ class SessionsController < ApplicationController
     # output the APIkey from the header
     # puts request.headers["X-APIkey"];
     creator = Creator.find_by(creator: request.headers[:creator])
-    if creator && Creator.find_by(password: request.headers[:password])
+    if creator && creator.authenticate(request.headers[:password])
       render json: { auth_token: encodeJWT(creator) }
     else
       render json: { error: 'Invalid username or password' }, status: :unauthorized

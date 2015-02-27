@@ -12,10 +12,20 @@ Position.create(
     lat: 40.1,
     long: 50.2
 )
+=begin
 Creator.create(
     creator: "Chimmichanga",
     password: "password"
 )
+=end
+10.times do |n|
+  name  = Faker::Name.name
+  password = "password"
+  Creator.create!(creator:          name,
+                  password:         password,
+                  password_confirmation: password
+  )
+end
 
 User.create!(username:              "Erik",
              email:                 "Erik@gmail.org",

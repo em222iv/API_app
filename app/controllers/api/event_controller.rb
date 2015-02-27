@@ -8,10 +8,15 @@ class Api::EventController < ApplicationController
 
   #http://localhost:3000/api/event.json?limit=10&offset=0
   def index
+
+
     @event = Event.all.order(created_at: :desc)
    if offset_params.present?
      @event = Event.limit(@limit).offset(@offset).order(created_at: :desc)
    end
+    if params[:query].present?
+      @event = Event.where('description LIKE ?', "%#{params[:query]}%")
+    end
     respond_with @event
   end
   def show
