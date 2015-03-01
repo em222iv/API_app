@@ -7,9 +7,11 @@ Admins inlogg är nu inställt till: Erik@gmail.org, lösenord: password
 -Se till att skapa en egen användare/eller välj en av de autogenererade(http://localhost:3000/login, eller den port du väljer att köra istället för 3000)
  för att få en API-nyckel.
 
+
 -Använd sedan postman för att få en "ClientKey" under http://localhost:3000/auth.
+I postman.json finns finns koden för att importera till postman.
 Det finns en föreberedd flik i postman-filen som heter Get-ClientKey,
-fyll bara in dina uppgifter u headern.
+fyll bara in dina uppgifter som är förberedda i headern.
 
 
 

@@ -20,15 +20,20 @@ class Api::PositionController < ApplicationController
   def create
     @position =  Position.new(position_params)
     if @position.save
-      respond_with @position
+      render json: { message: 'Succesfully added position' }, status: :created
+    else
+      render json: { error: 'Something went wrong. Make sure JSON is correct. e.g. {"position":{"lat":40.34, "long": 50.12}}' }, status: :bad_request
+
     end
   end
   #{"position":{"position":"pos2"}}
   def update
     @position = Position.find(params[:id])
     if @position.update_attributes(position_params)
-      respond_with @position
+      render json: { message: 'Succesfully edited position' }, status: :accepted
     end
+  else
+    render json: { error: 'Something went wrong. Make sure JSON is correct. e.g. {"position":{"lat":44.34, "long": 51.12}}' }, status: :bad_request
   end
   private
   def position_params

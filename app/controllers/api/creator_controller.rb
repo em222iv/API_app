@@ -16,23 +16,23 @@ class Api::CreatorController < ApplicationController
   def new
     @creator = Creator.new
   end
-  #{"creator":{"creator":"Erik-san"}}
   def create
     @creator =  Creator.new(creator_params)
     if @creator.save
-      respond_with @creator
+      render json: { message: 'Succesfully added Creator' }, status: :created
+    else
+      render json: { error: 'Something went wrong. Make sure JSON is correct. e.g. {"creator":{"creator":"Mr Winston", "password": "Gentleman"}}' }, status: :bad_request
     end
   end
   #{"creator":{"creator":"Creator2"}}
   def update
     @creator = Creator.find(params[:id])
     if @creator.update_attributes(creator_params)
-      respond_with @creator
+      render json: { message: 'Succesfully edited Creator' }, status: :accepted
+    else
+      render json: { error: 'Something went wrong. Make sure JSON is correct. e.g. {"creator":{"creator":"Mr Winston", "password": "Gentleman"}}' }, status: :bad_request
     end
   end
-  # render status: :too_many_requests # 424
-  #  render status: :unprocessable_entity # 422
-
   private
   def creator_params
     params.require(:creator).permit(:creator,:password)

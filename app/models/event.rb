@@ -8,7 +8,7 @@ class Event < ActiveRecord::Base
   def serializable_hash (options={})
     options = {
         # declare what we want to show
-        only: [:id, :description]
+        only: [:id, :position_id,:creator_id,:description]
     }.update(options)
 
     json = super(options)

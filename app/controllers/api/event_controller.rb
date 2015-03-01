@@ -8,8 +8,6 @@ class Api::EventController < ApplicationController
 
   #http://localhost:3000/api/event.json?limit=10&offset=0
   def index
-
-
     @event = Event.all.order(created_at: :desc)
    if offset_params.present?
      @event = Event.limit(@limit).offset(@offset).order(created_at: :desc)
@@ -25,11 +23,10 @@ class Api::EventController < ApplicationController
   def new
     @event = Event.new
   end
-  #     find_all(*args).first || raise(MissingTemplate.new(self, *args)) = byt parametrar i postman
-  # {"event":{"tagID":2,"positionID":"2"}}
+
 
   #create with tag
-  #{ "event": { "tagID": "8", "positionID": "8"}, "tag": { "tag": "coole"}}
+  #{ "event": { "positionID": "8", "creatorID": "8", "description":"skapaa"}, "tag": { "tag": "coole"}}
   def create
     @event =  Event.new(event_params)
     @tag = Tag.new(tag_params)
@@ -40,19 +37,27 @@ class Api::EventController < ApplicationController
     @event.tags << @tag
     @event.creator_id = @creator_id
     if @event.save && @tag.save
-      respond_with @event
+      render json: { message: 'Succesfully added event' }, status: :created
     end
+  else
+    render json: { error: 'Something went wrong. Make sure JSON is correct. e.g.{"event":{"position_id":2,"creator_id":2, "description": "beskrivande text"}} or {"event":{"position_id":2,"creator_id":2, "description": "beskrivande text"}, "tag": { "tag": "youre tag"}}' }, status: :bad_request
   end
   #
   #{"id":3,"tagID":3,"positionID":3,"created_at":"2015-02-18T12:48:19.772Z","updated_at":"2015-02-18T12:57:20.138Z"}
   def update
     @event = Event.find(params[:id])
     if @event.update_attributes(event_params)
-      respond_with @event
+      render json: { message: 'Succesfully edited event'}, status: :accepted
+    else
+      render json: { error: 'Something went wrong. Make sure JSON is correct. e.g.{"event":{"position_id":2,"creator_id":2, "description": "beskrivande text"}} or {"event":{"position_id":2,"creator_id":2, "description": "beskrivande text"}, "tag": { "tag": "youre tag"}}' }, status: :bad_request
     end
   end
-  # render status: :too_many_requests # 424
-  #  render status: :unprocessable_entity # 422
+  def destroy
+    @event = Event.find(params[:id])
+    @event.delete
+    render json: { message: 'Succesfully deleted event'}, status: :accepted
+  end
+=begin
   def api_auth
     if request.headers["Authorization"].present?
       key = request.headers["Authorization"]
@@ -63,6 +68,7 @@ class Api::EventController < ApplicationController
       end
     end
   end
+=end
   # This method is using the geocoder and helps with searching near a specific position
   def nearby
     # Check the parameters

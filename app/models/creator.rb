@@ -6,7 +6,7 @@ class Creator < ActiveRecord::Base
   def serializable_hash (options={})
     options = {
         # declare what we want to show
-        only: [:id, :description]
+        only: [:id, :creator]
     }.update(options)
 
     json = super(options)
