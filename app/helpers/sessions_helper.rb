@@ -33,9 +33,7 @@ module SessionsHelper
     session[:forwarding_url] = request.url if request.get?
   end
 
-  ####### API auth stuff with JWT
-
-  # This is a callback which actiosn will call if protected
+  #check
   def api_auth
     if request.headers["Authorization"].present?
       key = request.headers["Authorization"]
@@ -49,9 +47,7 @@ module SessionsHelper
 
   def api_jwt_auth
     if request.headers["ClientKey"].present?
-      # Take the last part in The header (ignore Bearer)
       auth_header = request.headers['ClientKey'].split(' ').last
-      # Are we feeling alright!?
       @token_payload = decodeJWT auth_header.strip
       if !@token_payload
         render json: { error: 'The provided token wasn´t correct' }, status: :bad_request
@@ -80,7 +76,7 @@ module SessionsHelper
     if payload[0]["exp"] >= Time.now.to_i
       payload
     else
-      puts "time fucked up"
+      puts "Timeout"
       false
     end
       # catch the error if token is wrong

@@ -18,7 +18,7 @@ Creator.create(
     password: "password"
 )
 =end
-10.times do |n|
+5.times do |n|
   name  = Faker::Name.name
   password = "password"
   Creator.create!(creator:          name,
@@ -35,7 +35,7 @@ User.create!(username:              "Erik",
              admin: true)
 
 
-10.times do |n|
+4.times do |n|
   name  = Faker::Name.name
   email = "example-#{n+1}@railstutorial.org"
   password = "password"

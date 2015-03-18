@@ -1,7 +1,7 @@
 class Api::CreatorController < ApplicationController
   protect_from_forgery with: :null_session
   skip_before_filter :verify_authenticity_token
-  before_action :api_auth
+  before_action :api_auth, only: [:create,:update]
   before_action :api_key
   respond_to :json, :xml
 

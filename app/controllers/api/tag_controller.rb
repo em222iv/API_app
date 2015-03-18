@@ -1,7 +1,7 @@
 class Api::TagController < ApplicationController
   protect_from_forgery with: :null_session
   skip_before_filter :verify_authenticity_token
-  before_action :api_auth
+  before_action :api_auth, only: [:create,:update]
   respond_to :json, :xml
 
   def index
@@ -32,20 +32,8 @@ class Api::TagController < ApplicationController
     else
       render json: { error: 'Something went wrong. Make sure JSON is correct. e.g. {"tag":{"tag":"Your tag name}}' }, status: :bad_request
     end
+  end
 
-  end
-  # render status: :too_many_requests # 424
-  #  render status: :unprocessable_entity # 422
-  def api_auth
-    if request.headers["Authorization"].present?
-      key = request.headers["Authorization"]
-      @user = User.where(key: key).first if key
-      unless @user
-        render status: :unauthorized # 401
-        return false
-      end
-    end
-  end
   private
   def tag_params
     params.require(:tag).permit(:tag)
