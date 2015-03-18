@@ -4,7 +4,9 @@ class Api::EventController < ApplicationController
   before_action :api_key
   before_action :api_auth, only: [:create,:update,:destroy]
   before_action :offset_params, only: [:index, :nearby]
+  before_action :api_jwt_auth, only:[:update,:destroy]
   respond_to :json, :xml
+  include SessionsHelper
 
   #http://localhost:3000/api/event.json?limit=10&offset=0
   def index
@@ -19,7 +21,6 @@ class Api::EventController < ApplicationController
    if offset_params.present?
      @event = Event.limit(@limit).offset(@offset).order(created_at: :desc)
    end
-
     respond_with @event
   end
   def show
@@ -53,10 +54,15 @@ class Api::EventController < ApplicationController
   #{"id":3,"tagID":3,"positionID":3,"created_at":"2015-02-18T12:48:19.772Z","updated_at":"2015-02-18T12:57:20.138Z"}
   def update
     @event = Event.find(params[:id])
-    if @event.update_attributes(event_params)
-      render json: { message: 'Succesfully edited event'}, status: :accepted
-    else
-      render json: { error: 'Something went wrong. Make sure JSON is correct. e.g.{"event":{"position_id":2,"creator_id":2, "description": "beskrivande text"}} or {"event":{"position_id":2,"creator_id":2, "description": "beskrivande text"}, "tag": { "tag": "youre tag"}}' }, status: :bad_request
+    @position = Position.find(params[:id])
+    @tag = Tag.find(params[:id])
+
+    if @event.creator_id == @token_payload[0]['creator_id']
+      if @event.update_attributes(event_params) && @position.update_attributes(position_params) && @tag.update_attributes(tag_params)
+        render json: { message: 'Succesfully edited event'}, status: :accepted
+      else
+        render json: { error: 'Something went wrong. Make sure JSON is correct. e.g.{"event":{"position_id":2,"creator_id":2, "description": "beskrivande text"}} or {"event":{"position_id":2,"creator_id":2, "description": "beskrivande text"}, "tag": { "tag": "youre tag"}}' }, status: :bad_request
+      end
     end
   end
   def destroy
@@ -70,10 +76,13 @@ class Api::EventController < ApplicationController
     if params[:lat].present? && params[:long].present?
       # using the parameters and offset/limit
       position = Position.near([params[:lat].to_f, params[:long].to_f], 1000).limit(@limit).offset(@offset)
+      if position position.map(&:events) == []
+        render json: { message: 'No nearby events'}, status: :accepted
+      end
       respond_with position.map(&:events), status: :ok
     else
      # error = ErrorMessage.new("Could not find any resources. Bad parameters?", "Could not find any team!" )
-      render status: :bad_request # just json in this example
+      render json: { message: 'There is something wrong with your request.'}, status: :bad_request
     end
   end
   private

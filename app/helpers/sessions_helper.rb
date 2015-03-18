@@ -45,17 +45,7 @@ module SessionsHelper
     end
   end
 
-  def api_jwt_auth
-    if request.headers["ClientKey"].present?
-      auth_header = request.headers['ClientKey'].split(' ').last
-      @token_payload = decodeJWT auth_header.strip
-      if !@token_payload
-        render json: { error: 'The provided token wasn´t correct' }, status: :bad_request
-      end
-    else
-      render json: { error: 'Need to include the Authorization header' }, status: :forbidden # The header isn´t present
-    end
-  end
+
 
   # This method is for encoding the JWT before sending it out
   def encodeJWT(creator, exp=2.hours.from_now)

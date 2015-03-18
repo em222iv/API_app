@@ -33,7 +33,6 @@ class Api::TagController < ApplicationController
       render json: { error: 'Something went wrong. Make sure JSON is correct. e.g. {"tag":{"tag":"Your tag name}}' }, status: :bad_request
     end
   end
-
   private
   def tag_params
     params.require(:tag).permit(:tag)

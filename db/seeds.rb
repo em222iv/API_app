@@ -4,6 +4,7 @@
 Event.create(
     position_id: 1,
     creator_id: 1,
+    tag_id: 1,
     description: "hej"
 )
 Tag.create(tag: "taggg")

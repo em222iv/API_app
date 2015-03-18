@@ -2,7 +2,7 @@ class Api::PositionController < ApplicationController
   protect_from_forgery with: :null_session
   skip_before_filter :verify_authenticity_token
   before_action :api_key
-  before_action :api_auth, only: [:index,:show]
+  before_action :api_auth, only: [:create,:update]
 
   respond_to :json, :xml
 
@@ -19,6 +19,7 @@ class Api::PositionController < ApplicationController
   #{"position":{"position":"possiiii"}}
   def create
     @position =  Position.new(position_params)
+
     if @position.save
       render json: { message: 'Succesfully added position' }, status: :created
     else
@@ -37,6 +38,6 @@ class Api::PositionController < ApplicationController
   end
   private
   def position_params
-    params.require(:position).permit(:lat,:long)
+    params.require(:position).require(:lat,:long)
   end
 end
