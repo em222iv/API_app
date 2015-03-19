@@ -19,8 +19,8 @@ Creator.create(
     password: "password"
 )
 =end
-2.times do |n|
-  name  = Faker::Name.name
+1.times do |n|
+  name  = "testare"
   password = "password"
   Creator.create!(creator:               name,
                   password:              password,

@@ -12,6 +12,7 @@ I postman.json finns finns koden för att importera till postman.
 Det finns en föreberedd flik i postman-filen som heter Get-ClientKey,
 fyll bara in dina uppgifter som är förberedda i headern.
 
+För att testa angularapplikation, gå till "https://github.com/em222iv/ClientApp"
 
 
 
