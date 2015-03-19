@@ -55,10 +55,9 @@ class Api::EventController < ApplicationController
   def update
     @event = Event.find(params[:id])
     @position = Position.find(params[:id])
-    @tag = Tag.find(params[:id])
 
     if @event.creator_id == @token_payload[0]['creator_id']
-      if @event.update_attributes(event_params) && @position.update_attributes(position_params) && @tag.update_attributes(tag_params)
+      if @event.update_attributes(event_params) && @position.update_attributes(position_params)
         render json: { message: 'Succesfully edited event'}, status: :accepted
       else
         render json: { error: 'Something went wrong. Make sure JSON is correct. e.g.{"event":{"position_id":2,"creator_id":2, "description": "beskrivande text"}} or {"event":{"position_id":2,"creator_id":2, "description": "beskrivande text"}, "tag": { "tag": "youre tag"}}' }, status: :bad_request

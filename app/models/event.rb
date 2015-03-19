@@ -8,7 +8,7 @@ class Event < ActiveRecord::Base
   def serializable_hash (options={})
     options = {
         # declare what we want to show
-        include: {:position => {only:[:lat,:long]}, :tags => {only:[:tag] }},
+        include: {:position => {only:[:lat,:long]}, :tags => {only:[:tag] }, :creator => {only:[:creator] }},
         only: [:id, :position_id,:creator_id,:description]
     }.update(options)
 
